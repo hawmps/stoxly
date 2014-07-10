@@ -1,7 +1,13 @@
 //Stock tracker!
+//Dependencies
 var request = require('request');
 var fs = require('fs');
 
+/*Read stock symbols from file
+ * Filename: symbols
+ * Location: __dirname
+ * Returns var syms2, a String with all the stock codes ready to be inserted into a YQL statement
+ */
 var symbols = fs.readFileSync('./symbols', 'utf8').split('\n');
 var syms = [];
 for (var symbol in symbols) {
@@ -9,6 +15,13 @@ for (var symbol in symbols) {
 }
 syms.pop();
 var syms2 = syms.join();
+
+/* Request previous days close prices from Yahoo via YQL query 
+ * No auth needed
+ * Appends Symbol,PreviousClose to file
+ * Filename stockdata.csv
+ * Location __dirname
+ */ 
 var stocks = 'Select PreviousClose from yahoo.finance.quotes where symbol in ('+syms2+')';
 var options = {
     url:     'https://query.yahooapis.com/v1/public/yql',
