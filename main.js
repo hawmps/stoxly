@@ -8,7 +8,7 @@ var fs = require('fs');
  * Location: __dirname
  * Returns var syms2, a String with all the stock codes ready to be inserted into a YQL statement
  */
-var symbols = fs.readFileSync('./symbols', 'utf8').split('\n');
+var symbols = fs.readFileSync(__dirname+'/symbols', 'utf8').split('\n');
 var syms = [];
 for (var symbol in symbols) {
     syms[symbol] = '"'+symbols[symbol]+'"';
@@ -36,7 +36,7 @@ request(options,function(err, res, body) {
     prices = JSON.parse(res.body);
     var date = new Date();
     for (var ticker in prices.query.results.quote) {
-        var data = (syms[ticker]+','+prices.query.results.quote[ticker].PreviousClose+'\n');
-        fs.appendFileSync('stockdata.csv',data);
+        var data = (date+','+syms[ticker]+','+prices.query.results.quote[ticker].PreviousClose+'\n');
+        fs.appendFileSync(__dirname+'/stockdata.csv',data);
         }
 });
