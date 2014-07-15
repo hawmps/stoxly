@@ -9,6 +9,7 @@
   "author": "JP Lumsdaine",
   "license": "MIT",
   "dependencies": {
+    "pg": "^3.4.0",
     "request": "~2.37.0"
   }
 }
