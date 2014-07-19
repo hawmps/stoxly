@@ -28,7 +28,8 @@ exports.insertPrices = function(data, callback) {
     }
     client.query(queryString, function(err, result) {
         if (err) throw err;
-    callback(null);
+        client.end();
+        callback(null);
     });
     });
 };

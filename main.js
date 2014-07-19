@@ -36,6 +36,11 @@ var options = {
     qs:      {q:  stocks, format: 'json', env: 'store://datatables.org/alltableswithkeys'}
 };
 
+function goInsert (qs){
+query.insertPrices(qs, function(err) {
+    if(err) throw err;
+    });
+}
 
 var prices = {};
 request(options,function(err, res, body) {
@@ -43,10 +48,8 @@ request(options,function(err, res, body) {
     prices = JSON.parse(res.body);
     var date = new Date().toISOString();
     for (var ticker in prices.query.results.quote) {
-        var data = ('\''+date+'\','+syms[ticker]+','+prices.query.results.quote[ticker].PreviousClose+'\n');
-        query.insertPrices(data, function(err) {
-        if(err) throw err;
-        })
+        var data = ('\''+date+'\',\''+symbols[ticker]+'\','+prices.query.results.quote[ticker].PreviousClose+'\n');
+        goInsert(data);
         }
 });
 });
